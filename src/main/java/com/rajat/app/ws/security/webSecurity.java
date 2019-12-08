@@ -5,7 +5,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 import com.rajat.app.ws.service.userService;
 
@@ -26,11 +28,21 @@ public class webSecurity extends WebSecurityConfigurerAdapter {
 		.permitAll()
 		.anyRequest()
 		.authenticated()
-		.and().addFilter(new authenticationFilter(authenticationManager()));
+		.and()
+		.addFilter(getAuthenticationFilter())
+		.addFilter(new AuthorizationFilter(authenticationManager()))
+		.sessionManagement()
+		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailService).passwordEncoder(bCryptPasswordEncoder);
+	}
+	
+	public authenticationFilter getAuthenticationFilter() throws Exception {
+		final authenticationFilter filter = new authenticationFilter(authenticationManager());
+		filter.setFilterProcessesUrl("/user/login");
+		return filter;
 	}
 }

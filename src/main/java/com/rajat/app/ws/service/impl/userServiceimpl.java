@@ -47,5 +47,15 @@ public class userServiceimpl implements userService {
 		throw new UsernameNotFoundException("username does not exist", new Error("userName not exist"));
 		return new User(user.getEmail(),user.getEncryptedPassword(),new ArrayList<>());
 	}
+	@Override
+	public userDto getUserByUserId(String userId) {
+		// TODO Auto-generated method stub
+		userDto returnValue = new userDto();
+		userEntity user=repository.findByUserId(userId);
+		if(user==null)
+		throw new Error("User Not Exists");
+		BeanUtils.copyProperties(user,returnValue);
+		return returnValue;
+	}
 
 }

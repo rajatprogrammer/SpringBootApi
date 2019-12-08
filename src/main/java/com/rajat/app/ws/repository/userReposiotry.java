@@ -9,4 +9,5 @@ import com.rajat.app.ws.io.entity.userEntity;
 public interface userReposiotry extends CrudRepository<userEntity, Long> {
   // userEntity finUserbyEmail(String email);
 	userEntity findByEmail(String email);
+	userEntity findByUserId(String userId);
 }

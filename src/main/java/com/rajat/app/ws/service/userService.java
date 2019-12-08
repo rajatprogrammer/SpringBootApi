@@ -6,4 +6,5 @@ import com.rajat.app.ws.shared.dto.userDto;
 
 public interface userService extends UserDetailsService{
 	userDto createUser(userDto user);
+	userDto getUserByUserId(String userId);
 }

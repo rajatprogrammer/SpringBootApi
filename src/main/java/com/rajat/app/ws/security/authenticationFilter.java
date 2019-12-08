@@ -49,9 +49,9 @@ public class authenticationFilter extends UsernamePasswordAuthenticationFilter {
 	   String token = Jwts.builder()
 			         .setSubject(userName)
 			         .setExpiration(new Date(System.currentTimeMillis() +securityConstant.EXPIRATION_TIME))
-			         .signWith(SignatureAlgorithm.HS512, securityConstant.TOKEN_SECRET)
+			         .signWith(SignatureAlgorithm.HS512, securityConstant.getTokenSecret())
 			         .compact();
-	   response.addHeader(securityConstant.HEADER_STRING, securityConstant.TOKEN_PREFIX + token);
+	   response.addHeader(securityConstant.HEADER_STRING, securityConstant.TOKEN_PREFIX + " "+token);
 	}
 
 	
